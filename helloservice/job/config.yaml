@@ -6,33 +6,7 @@ actions:
     tasks:
       - name: "Run helm"
         files:
-          - /charts # -> /keptn/charts
-        image: "alpine"
-        cmd: ["bash"]
-        args: ["/keptn/charts/test.sh"]
-        ttlSecondsAfterFinished: 15
-
-  - name: "Run tests using locust"
-    events:
-      - name: "sh.keptn.event.je-test.triggered"
-    tasks:
-      - name: "Run locust"
-        files:
-          - locust/basic.py
-          - locust/load.py
-          - locust/locust.conf
-        ttlSecondsAfterFinished: 15
-        image: "locustio/locust"
-        cmd: 
-          - locust
-        args:
-          - '--config'
-          - /keptn/locust/locust.conf
-          - '-f'
-          - /keptn/locust/basic.py
-          - '--host'
-          - "http://$(SERVICE).$(PROJECT)-$(STAGE)"
-          - "--only-summary"
+          - /charts
         env:
           - name: PROJECT
             value: "$.data.project"
@@ -43,3 +17,31 @@ actions:
           - name: SERVICE
             value: "$.data.service"
             valueFrom: event
+          - name: IMAGE
+            value: "$.data.configurationChange.values.image"
+            valueFrom: event
+        image: "alpine/helm:3.7.2"
+        cmd: ["helm"]
+        args: ["upgrade", "--create-namespace", "--install", "-n", "$(PROJECT)-$(STAGE)", "$(SERVICE)", "/keptn/charts/$(SERVICE).tgz", "--set", "image=$(IMAGE)", "--wait"]
+
+  - name: "Run tests using locust"
+    events:
+      - name: "sh.keptn.event.je-test.triggered"
+    tasks:
+      - name: "Run locust"
+        files:
+          - locust/basic.py
+          - locust/locust.conf
+        env:
+          - name: PROJECT
+            value: "$.data.project"
+            valueFrom: event
+          - name: STAGE
+            value: "$.data.stage"
+            valueFrom: event
+          - name: SERVICE
+            value: "$.data.service"
+            valueFrom: event
+        image: "locustio/locust"
+        cmd: ["locust"]
+        args: ["--config", "/keptn/locust/locust.conf", "-f", "/keptn/locust/basic.py", "--host", "http://$(SERVICE).$(PROJECT)-$(STAGE)", "--only-summary"]
