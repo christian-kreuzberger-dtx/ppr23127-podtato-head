@@ -1,0 +1,19 @@
+apiVersion: webhookconfig.keptn.sh/v1alpha1
+kind: WebhookConfig
+metadata:
+  name: webhook-configuration
+spec:
+  webhooks:
+    - type: sh.keptn.event.evaluation.triggered
+      requests:
+        - "curl --header 'Content-Type: application/cloudevents+json' --request
+          POST --data
+          '{\"data\":{\"something\":\"christian-kreuzberger\",\"project\":\"{{.\
+          data.project}}\",\"service\":\"{{.data.service}}\",\"stage\":\"{{.dat\
+          a.stage}}\"},\"id\":\"d416eb89-e9e6-4416-8c20-48774072bab6\",\"source\
+          \":\"webhook-service\",\"specversion\":\"1.0\",\"time\":\"2022-03-10T\
+          12:12:29.818Z\",\"type\":\"sh.keptn.event.foobar.triggered\",\"shkept\
+          ncontext\":\"fc5c9348-efd6-43e7-8fe0-dd1d38622eaf\",\"shkeptnspecvers\
+          ion\":\"0.2.3\"}' http://mongodb-datastore:8080/event"
+      subscriptionID: e7bf1772-ab40-4037-8300-312f86286402
+      sendFinished: true
