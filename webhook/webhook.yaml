@@ -17,3 +17,8 @@ spec:
           ion\":\"0.2.3\"}' http://mongodb-datastore:8080/event"
       subscriptionID: e7bf1772-ab40-4037-8300-312f86286402
       sendFinished: true
+    - type: sh.keptn.event.evaluation.triggered
+      requests:
+        - curl --request GET http://mongodb-datastore.pia21048:8080/health
+      subscriptionID: e949c2ff-d1c2-48a5-b252-7de28600cbe8
+      sendFinished: true
