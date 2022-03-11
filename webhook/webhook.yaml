@@ -23,3 +23,8 @@ spec:
           https://webhook.site/eb10e75d-e300-4bd2-9677-c316502b1488
       subscriptionID: 3f15807a-0438-479e-bb5a-aeae9fc9ef55
       sendFinished: true
+    - type: sh.keptn.event.evaluation.triggered
+      requests:
+        - curl --request GET https://kubernetes.default.svc
+      subscriptionID: b65ff415-3ca1-469b-9cd3-48d33aa88604
+      sendFinished: true
