@@ -1,5 +1,6 @@
 ---
 spec_version: '1.0'
 indicators:
-  http_response_time_seconds_main_page_sum: metricSelector=http_server_request_duration_seconds_sum:filter(and(eq(\"k8s.namespace.name\",$PROJECT-$STAGE),eq(\"k8s.deployment.name\",$SERVICE))):avg&entitySelector=type(CLOUD_APPLICATION_INSTANCE)
-  request_throughput: metricSelector=http_requests_total:filter(and(eq(\"k8s.namespace.name\",$PROJECT-$STAGE),eq(\"k8s.deployment.name\",$SERVICE))):avg&entitySelector=type(CLOUD_APPLICATION_INSTANCE)
+  request_throughput: metricSelector=http_requests_total.count:filter(and(eq(\"k8s.namespace.name\",$PROJECT-$STAGE),eq(\"k8s.deployment.name\",$SERVICE)))&entitySelector=type(CLOUD_APPLICATION_INSTANCE)
+  go_routines: metricSelector=go_goroutines:filter(and(eq(\"k8s.namespace.name\",$PROJECT-$STAGE),eq(\"k8s.deployment.name\",$SERVICE))):avg&entitySelector=type(CLOUD_APPLICATION_INSTANCE)
+  failing_request: metricSelector=promhttp_metric_handler_requests_total.count:filter(and(eq(code,200),eq(\"k8s.namespace.name\",$PROJECT-$STAGE),eq(\"k8s.deployment.name\",$SERVICE))):avg&entitySelector=type(CLOUD_APPLICATION_INSTANCE)
